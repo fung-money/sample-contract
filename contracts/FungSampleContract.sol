@@ -5,8 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract FungSampleContract is ERC721, Ownable, AccessControl {
+contract FungSampleContract is ERC721URIStorage, Ownable, AccessControl {
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -19,14 +20,6 @@ contract FungSampleContract is ERC721, Ownable, AccessControl {
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
-    }
-
-    function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal virtual {
-        require(
-            _exists(tokenId),
-            "ERC721Metadata: URI set of nonexistent token"
-        );
-        _tokenURIs[tokenId] = _tokenURI;
     }
 
     function mintWithoutBuyerAddress() public payable returns (uint256) {
