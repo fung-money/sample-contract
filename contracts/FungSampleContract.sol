@@ -14,8 +14,6 @@ contract FungSampleContract is ERC721URIStorage, Ownable, AccessControl {
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    mapping(uint256 => string) private _tokenURIs;
-
     constructor() ERC721("FungSampleContract", "FUNGSAMPLE") {}
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControl) returns (bool) {
