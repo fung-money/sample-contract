@@ -29,10 +29,6 @@ contract FungSampleContract is ERC721, Ownable, AccessControl {
         _tokenURIs[tokenId] = _tokenURI;
     }
 
-    function _baseURI() internal view virtual override returns (string memory) {
-        return _baseURIextended;
-    }
-
     function mintWithoutBuyerAddress() public payable returns (uint256) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
