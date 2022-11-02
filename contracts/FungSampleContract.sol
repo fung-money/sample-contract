@@ -13,10 +13,24 @@ contract FungSampleContract is ERC721, Ownable, AccessControl {
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
+    mapping(uint256 => string) private _tokenURIs;
+
     constructor() ERC721("FungSampleContract", "FUNGSAMPLE") {}
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal virtual {
+        require(
+            _exists(tokenId),
+            "ERC721Metadata: URI set of nonexistent token"
+        );
+        _tokenURIs[tokenId] = _tokenURI;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return _baseURIextended;
     }
 
     function mintWithoutBuyerAddress() public payable returns (uint256) {
@@ -32,6 +46,15 @@ contract FungSampleContract is ERC721, Ownable, AccessControl {
         uint256 newItemId = _tokenIds.current();
 
         _safeMint(buyer, newItemId);
+        return newItemId;
+    }
+
+    function mintNFT(address recipient, string memory _tokenURI) external payable returns (uint256) {
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+
+        _safeMint(recipient, newItemId);
+        _setTokenURI(newItemId, _tokenURI);
         return newItemId;
     }
 
