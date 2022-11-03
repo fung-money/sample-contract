@@ -36,11 +36,11 @@ contract FungSampleContract is ERC721URIStorage, Ownable, AccessControl {
         return newItemId;
     }
 
-    function mintNFT(address recipient, string memory _tokenURI) external payable returns (uint256) {
+    function mintNFT(address buyer, string memory _tokenURI) external payable returns (uint256) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
 
-        _safeMint(recipient, newItemId);
+        _safeMint(buyer, newItemId);
         _setTokenURI(newItemId, _tokenURI);
         return newItemId;
     }
