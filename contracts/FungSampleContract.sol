@@ -5,8 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract FungSampleContract is ERC721, Ownable, AccessControl {
+contract FungSampleContract is ERC721URIStorage, Ownable, AccessControl {
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -32,6 +33,15 @@ contract FungSampleContract is ERC721, Ownable, AccessControl {
         uint256 newItemId = _tokenIds.current();
 
         _safeMint(buyer, newItemId);
+        return newItemId;
+    }
+
+    function mintNFT(address buyer, string memory _tokenURI) external payable returns (uint256) {
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+
+        _safeMint(buyer, newItemId);
+        _setTokenURI(newItemId, _tokenURI);
         return newItemId;
     }
 
